@@ -1,58 +1,59 @@
-import React, { useState, setState } from "react";
+import React, { useState } from "react";
 import "../css/style.css";
-import signup from ".././signup/signup";
 import image1 from ".././asset/OtpVerificationPageSlider.png";
 import image2 from ".././asset/logo.png";
-import image3 from ".././asset/LoginScreenHiIcon.png";
 import axios from "axios";
-import {
-  Route,
-  Link,
-  BrowserRouter,
-  useHistory,
-  withRouter,
-} from "react-router-dom";
-import { validPassword, validPhone } from "../js/regex";
+import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 function OtpPage({ history }) {
-  const [code, setCode] = useState("");
-  const [codeError, setCodeError] = useState(false);
-  const [otps, setOtps] = useState("123456");
-  const [MobileNumber, setMobileNumber] = useState("");
+  // State Storage for Data and Errors
+  const [otp, setOtp] = useState("123456");
+  const [otpError, setOtpError] = useState(true);
 
-  const jump = () => {
-    if (otps) {
-      console.log("ok");
-    } else {
-      console.log("notok");
+  const [phone, setPhone] = useState("");
+  const { phoneNumber } = history.location;
+
+  console.log(phoneNumber);
+
+  // Validation for OTP
+  const validateOTP = (e) => {
+    if (e.target.value !== "undefined") {
+      if (e.target.value.length < 6) {
+        setOtp(e.target.value);
+        setOtpError(true);
+      } else if (e.target.value.length == 6) {
+        setOtp(e.target.value);
+        setOtpError(false);
+      } else {
+        setOtpError(false);
+      }
     }
   };
 
-  const intentSignUp = () => {
-    history.push("/login");
-  };
-
+  // Check for data on API on submit for OTP
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { mobile } = e.target.elements.mobile;
-    const { otp } = e.target.elements.otp;
+    if (!otpError) {
+      const data = new FormData(e.target);
 
-    setMobileNumber(mobile);
-    setOtps(otp);
+      //setPhone(data.get("phone"));
+      setOtp(data.get("otp"));
 
-    axios
-      .post("http://api.impsguru.com/api/verifyOtp", {
-        MobileNumber: mobile,
-        otp: otp,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      axios
+        .post("http://api.impsguru.com/api/verifyOtp", {
+          MobileNumber: phoneNumber,
+          Otp: otp,
+        })
+        .then((response) => {
+          history.push({ pathname: "/dash" });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
+
   return (
     <div className="container">
       <div className="row">
@@ -79,40 +80,48 @@ function OtpPage({ history }) {
             </div>
           </div>
 
-          <div className="rowp-5 justify-content-md-center otp-form">
-            <Form>
+          <div className="row otp-form">
+            <Form onSubmit={handleSubmit}>
               <h3>
                 <span className="font-weight-bold">OTP Verification!</span>
               </h3>
 
               <span className="font-weight-bold">
-                A 6 digit code has been sent to +91xxxxxxx49
+                A 6 digit code has been sent to +91xxxxxxx02
               </span>
 
               <br />
               <FormGroup>
+                <Input type="hidden" name="phone" value="9999442202" />
                 <Label className="mt-5 mb-1 ">Enter Code</Label>
                 <Input
                   className="input"
-                  type="password"
+                  type="number"
+                  name="otp"
+                  onChange={validateOTP}
                   placeholder="******"
                 ></Input>
               </FormGroup>
               <FormGroup>
                 <div className="row">
-                  <Button className="btn" onClick={jump}>
+                  <Button type="submit" className="btn">
                     Verify
                   </Button>
                 </div>
               </FormGroup>
               <FormGroup>
                 <div className="row">
-                  <Button className="btns" onClick={intentSignUp}>
+                  <Button
+                    className="btns"
+                    onClick={() => {
+                      history.push("/login");
+                    }}
+                  >
                     Back to Login
                   </Button>
                 </div>
               </FormGroup>
-              <br />
+              {otpError && <p>Please enter a valid OTP</p>}
             </Form>
           </div>
           <div className="row"></div>

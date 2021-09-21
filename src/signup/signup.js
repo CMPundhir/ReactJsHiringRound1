@@ -117,7 +117,7 @@ function Signup({ history }) {
           Password: password,
         })
         .then((response) => {
-          console.log(response);
+          history.push({ pathname: "/login" });
         })
         .catch((error) => {
           console.log(error);
@@ -217,15 +217,16 @@ function Signup({ history }) {
                 />
               </FormGroup>
               <div className="row">
-                <Button className="btn">Sign up</Button>
-
+                <Button type="submit" className="btn">
+                  Sign up
+                </Button>
                 <Button
                   className="btns"
                   onClick={() => {
                     history.push("/login");
                   }}
                 >
-                  Back to Log in
+                  Back to Login
                 </Button>
                 {passwordError && <p>Password is invalid</p>}
                 {phoneError && <p>Mobile no is invalid</p>}

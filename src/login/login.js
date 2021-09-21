@@ -11,10 +11,10 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 function Login({ history }) {
   // State Storage for Data and Errors
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
+  const [passwordError, setPasswordError] = useState(true);
 
   const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState(false);
+  const [phoneError, setPhoneError] = useState(true);
 
   // Validation for Phone Number
   const validatePhoneNumber = (e) => {
@@ -62,7 +62,7 @@ function Login({ history }) {
           Password: password,
         })
         .then((response) => {
-          history.push("/otp");
+          history.push({ pathname: "/otp", phoneNumber: phone });
         })
         .catch((error) => {
           console.log(error);
