@@ -13,6 +13,11 @@
   padding-right: 5rem;
 }
 
+.term-condition {
+  color: #07b9fa;
+  cursor: pointer;
+}
+
 Button.btn {
   background-color: #07b9fa;
   color: #ecf2fc;

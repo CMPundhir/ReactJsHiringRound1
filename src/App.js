@@ -10,13 +10,16 @@ function App() {
       <div>
         <BrowserRouter>
           <Switch>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/login">
+            <Route exact path="/">
               <Login />
             </Route>
-            <Route path="/otp">
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/otp">
               <OtpPage />
             </Route>
           </Switch>

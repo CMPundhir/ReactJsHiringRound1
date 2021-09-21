@@ -9,6 +9,7 @@ import { validPassword, validPhone } from "../js/regex";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 function Login({ history }) {
+  // State Storage for Data and Errors
   const [password, setPassword] = useState("");
   const [pwdError, setPwdError] = useState(false);
 
@@ -94,25 +95,24 @@ function Login({ history }) {
               />
             </div>
           </div>
-          <div className="row p-3">
-            <div className="col">
-              <img
-                className="img-fluid"
-                src={image3}
-                style={{ marginLeft: "10px", width: "70px" }}
-                alt="image_3"
-              />
-            </div>
-          </div>
           <div className="row justify-content-md-center login-form">
             <Form onSubmit={handleSubmit}>
-              <h3>
-                <span className="font-weight-bold">Welcome back!</span>
-              </h3>
-              <span className="font-weight-bold">
-                Please login to access your account
-              </span>
-              <br />
+              <div className="row">
+                <img
+                  className="img-fluid"
+                  src={image3}
+                  style={{ width: "70px" }}
+                  alt="image_3"
+                />
+              </div>
+              <div className="row mt-2">
+                <h3>
+                  <span className="fw-bold">Welcome Back!</span>
+                </h3>
+              </div>
+              <div className="row mt-2 mb-4">
+                <span>Please login to access your account</span>
+              </div>
               <FormGroup>
                 <Label className="mt-3 mb-1 ">Phone Number</Label>
                 <Input
@@ -169,7 +169,9 @@ function Login({ history }) {
             </Form>
           </div>
           <div className="row mt-5">
-            <span className="text-center fs-6">Terms &amp; Condition</span>
+            <span className="text-center fs-6 term-condition">
+              Terms &amp; Condition
+            </span>
           </div>
         </div>
       </div>

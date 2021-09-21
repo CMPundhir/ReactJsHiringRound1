@@ -85,59 +85,69 @@ function Signup({ history }) {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-6">
+        <div className="col-12 col-md-6 col-sm-6">
           <div className="banner-block">
             <img className="img-fluid" src={image1} alt="image_1" />
             <p class="text-center fw-bold fs-5">
               Get you payment setteled in minutes
             </p>
-            <p class="text-center  fs-9">
+            <p class="text-center fs-9">
               Connect your bank card, and create accounts in the selected
               currency.
             </p>
           </div>
         </div>
-        <div className="col-6 position-relative">
-          <div className="row ">
-            <img
-              className="w-25 p-1 position-absolute top-0 end-0"
-              src={image2}
-              alt="image_2"
-            />
+        <div className="col-12 col-md-6 col-sm-6">
+          <div className="row p-3">
+            <div className="col">
+              <img
+                className="img-fluid w-25 h-0 float-end"
+                src={image2}
+                alt="image_2"
+              />
+            </div>
           </div>
+
           <div className="row login-form">
             <Form onSubmit={handleSubmit}>
-              <h3>
-                <span className="font-weight-bold mb-4">Sign Up</span>
-              </h3>
-              <span className="font-weight-bold ">
-                Enter the deatils required
-              </span>
-              <br />
+              <div className="row">
+                <h3>
+                  <span className="fw-bold">Sign Up</span>
+                </h3>
+              </div>
+              <div className="row mt-2 mb-4">
+                <span>Enter the required details</span>
+              </div>
               <FormGroup>
-                <Label class="input-group">Name of Pan</Label>
-                <Input
-                  className="input "
-                  type="text"
-                  placeholder="John Doe"
-                  onChange={(e) => setPhone(e.target.value)}
-                ></Input>
-                <Label className="mt-4 ">Brand Name</Label>
-                <Input
-                  className="input mt-3 mb-1"
-                  type="text"
-                  placeholder="Apple"
-                  onChange={(e) => setPhone(e.target.value)}
-                ></Input>
+                <div className="row">
+                  <div className="col">
+                    <Label class="input-group">Name on PAN</Label>
+                    <Input
+                      className="input"
+                      type="text"
+                      placeholder="John Doe"
+                      onChange={validatePhoneNumber}
+                    />
+                  </div>
+                  <div className="col">
+                    <Label className="input-group">Brand Name</Label>
+                    <Input
+                      className="input"
+                      type="text"
+                      placeholder="Apple"
+                      onChange={validatePhoneNumber}
+                    />
+                  </div>
+                </div>
               </FormGroup>
               <FormGroup>
-                <Label className="mt-3 mb-1 ">Phone</Label>
+                <Label className="mt-3">Phone</Label>
                 <Input
                   className="input"
                   type="text"
                   placeholder="eg.8888xxxx40"
                   onChange={validatePhoneNumber}
-                ></Input>
+                />
               </FormGroup>
 
               <FormGroup>
@@ -146,8 +156,8 @@ function Signup({ history }) {
                   className="input"
                   type="text"
                   placeholder="johndoe@example.com"
-                  onChange={(e) => setPhone(e.target.value)}
-                ></Input>
+                  onChange={validatePhoneNumber}
+                />
               </FormGroup>
 
               <FormGroup>
@@ -156,27 +166,17 @@ function Signup({ history }) {
                   type="password"
                   placeholder="*********"
                   onChange={validatePassword}
-                ></Input>
-              </FormGroup>
-
-              <FormGroup>
-                <Input
-                  className="form-check-input mt-2 mb-2 md-2"
-                  type="checkbox"
-                  id="gridCheck"
-                ></Input>
-                <Label
-                  className="form-check-label mt-2 mb-2 md-2"
-                  for="gridCheck"
-                >
-                  {" "}
-                  &nbsp; Remember me
-                </Label>
+                />
               </FormGroup>
               <div className="row">
                 <Button className="btn">Sign up</Button>
 
-                <Button className="btns" onClick={intentLogIn}>
+                <Button
+                  className="btns"
+                  onClick={() => {
+                    history.push("/login");
+                  }}
+                >
                   Back to Log in
                 </Button>
                 {pwdError && <p>Your password is invalid</p>}
@@ -184,7 +184,11 @@ function Signup({ history }) {
               </div>
             </Form>
           </div>
-          <div className="row"></div>
+          <div className="row mt-5">
+            <span className="text-center fs-6 term-condition">
+              Terms &amp; Condition
+            </span>
+          </div>
         </div>
       </div>
     </div>
