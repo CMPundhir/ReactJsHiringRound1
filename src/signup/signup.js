@@ -3,7 +3,7 @@ import "../css/style.css";
 import image2 from ".././asset/logo.png";
 import image1 from ".././asset/SignUpPageSliderImage.png";
 import { validPassword, validPhone } from "../js/regex";
-import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 

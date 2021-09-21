@@ -15,12 +15,13 @@ function Login({ history }) {
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneErr] = useState(false);
 
+  // Validation for Phone Number
   const validatePhoneNumber = (e) => {
     e.preventDefault();
     if (e.target.value !== "undefined") {
       if (!validPhone.test(e.target.value)) {
-        setPhoneErr(true);
         setPhone(e.target.value);
+        setPhoneErr(true);
       } else if (e.target.value.length < 10) {
         setPhone(e.target.value);
         setPhoneErr(true);
@@ -33,40 +34,39 @@ function Login({ history }) {
     }
   };
 
+  // Validation for Password
   const validatePassword = (e) => {
     e.preventDefault();
     if (e.target.value !== "undefined") {
       if (!validPassword.test(e.target.value)) {
-        setPwdError(true);
         setPassword(e.target.value);
+        setPwdError(true);
       } else {
         setPwdError(false);
       }
     }
   };
 
+  // Check for data on API on submit for Login
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.target);
+    if (!pwdError && !phoneError) {
+      const data = new FormData(e.target);
 
-    setPhone(data.get("mobile"));
-    setPassword(data.get("password"));
-    axios
-      .post("http://api.impsguru.com/api/login", {
-        MobileNumber: phone,
-        Password: password,
-      })
-      .then((response) => {
-        history.push("/otp");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const intentSignUp = () => {
-    history.push("/signup");
+      setPhone(data.get("mobile"));
+      setPassword(data.get("password"));
+      axios
+        .post("http://api.impsguru.com/api/login", {
+          MobileNumber: phone,
+          Password: password,
+        })
+        .then((response) => {
+          history.push("/otp");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -153,7 +153,12 @@ function Login({ history }) {
                 </Button>
               </div>
               <div className="row mt-1">
-                <Button className="btns" onClick={intentSignUp}>
+                <Button
+                  className="btns"
+                  onClick={() => {
+                    history.push("/signup");
+                  }}
+                >
                   Sign Up
                 </Button>
               </div>
