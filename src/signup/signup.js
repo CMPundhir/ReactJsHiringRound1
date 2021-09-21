@@ -2,84 +2,127 @@ import React, { useState } from "react";
 import "../css/style.css";
 import image2 from ".././asset/logo.png";
 import image1 from ".././asset/SignUpPageSliderImage.png";
-import { validPassword, validPhone } from "../js/regex";
+import { validEmail, validPassword, validPhone } from "../js/regex";
 import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 
 function Signup({ history }) {
-  const [panError, setPanError] = useState(false);
-  const [phoneError, setPhoneErr] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [pwdError, setPwdError] = useState(false);
-  const [MobileNumber, setMobileNumber] = useState("");
-  const [Password, setUserPassword] = useState("");
-  const [brandName, setBrandName] = useState("");
-  const [userName, setName] = useState("");
+  // State Storage for Data and Errors
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState(true);
 
+  const [brandName, setBrandName] = useState("");
+  const [brandNameError, setBrandNameError] = useState(true);
+
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState(true);
+
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(true);
+
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(true);
+
+  // Validation for Phone Number
   const validatePhoneNumber = (e) => {
+    e.preventDefault();
     if (e.target.value !== "undefined") {
       if (!validPhone.test(e.target.value)) {
-        setPhoneErr(true);
         setPhone(e.target.value);
+        setPhoneError(true);
       } else if (e.target.value.length < 10) {
         setPhone(e.target.value);
-        setPhoneErr(true);
+        setPhoneError(true);
       } else if (e.target.value.length == 10) {
         setPhone(e.target.value);
-        setPhoneErr(false);
+        setPhoneError(false);
       } else {
-        setPhoneErr(false);
+        setPhoneError(false);
       }
     }
   };
 
+  // Validation for Password
   const validatePassword = (e) => {
     if (e.target.value !== "undefined") {
       if (!validPassword.test(e.target.value)) {
-        setPwdError(true);
         setPassword(e.target.value);
+        setPasswordError(true);
       } else {
-        setPwdError(false);
+        setPassword(e.target.value);
+        setPasswordError(false);
       }
     }
   };
 
-  const intentLogIn = () => {
-    history.push("/login");
+  // Validation for Email
+  const validateEmail = (e) => {
+    if (e.target.value !== "undefined") {
+      if (!validEmail.test(e.target.value)) {
+        setEmail(e.target.value);
+        setEmailError(true);
+      } else {
+        setEmail(e.target.value);
+        setEmailError(false);
+      }
+    }
   };
 
+  // Validation for Name
+  const validateName = (e) => {
+    if (e.target.value !== "undefined") {
+      if (e.target.value.length <= 3) {
+        setName(e.target.value);
+        setNameError(true);
+      } else {
+        setName(e.target.value);
+        setNameError(false);
+      }
+    }
+  };
+
+  // Update for Brandname
+  const updateBrandName = (e) => {
+    if (e.target.value !== "undefined") {
+      setBrandName(e.target.value);
+      setBrandNameError(false);
+    }
+  };
+
+  // Check for data on API on submit for Signup
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { mobile } = e.target.elements.mobile;
-    const { name } = e.target.elements.name;
-    const { brandname } = e.target.elements.brandname;
-    const { email } = e.target.elements.email;
-    const { password } = e.target.elements.password;
+    if (
+      !nameError &&
+      !passwordError &&
+      !emailError &&
+      !phoneError &&
+      !brandNameError
+    ) {
+      const data = new FormData(e.target);
 
-    setMobileNumber(mobile);
-    setUserPassword(password);
-    setEmail(email);
-    setBrandName(email);
-    setName(name);
+      setName(data.get("name"));
+      setBrandName(data.get("brandName"));
+      setPhone(data.get("mobile"));
+      setEmail(data.get("email"));
+      setPassword(data.get("password"));
 
-    axios
-      .post("http://api.impsguru.com/api/register", {
-        MobileNumber: mobile,
-        Name: name,
-        BrandName: brandname,
-        Email: email,
-        Password: password,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      axios
+        .post("http://api.impsguru.com/api/register", {
+          MobileNumber: phone,
+          Name: name,
+          BrandName: brandName,
+          Email: email,
+          Password: password,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -125,8 +168,9 @@ function Signup({ history }) {
                     <Input
                       className="input"
                       type="text"
+                      name="name"
                       placeholder="John Doe"
-                      onChange={validatePhoneNumber}
+                      onChange={validateName}
                     />
                   </div>
                   <div className="col">
@@ -134,8 +178,9 @@ function Signup({ history }) {
                     <Input
                       className="input"
                       type="text"
+                      name="brandName"
                       placeholder="Apple"
-                      onChange={validatePhoneNumber}
+                      onChange={updateBrandName}
                     />
                   </div>
                 </div>
@@ -144,7 +189,8 @@ function Signup({ history }) {
                 <Label className="mt-3">Phone</Label>
                 <Input
                   className="input"
-                  type="text"
+                  type="number"
+                  name="mobile"
                   placeholder="eg.8888xxxx40"
                   onChange={validatePhoneNumber}
                 />
@@ -154,9 +200,10 @@ function Signup({ history }) {
                 <Label className="mt-3 mb-1 ">Email</Label>
                 <Input
                   className="input"
-                  type="text"
+                  type="email"
+                  name="email"
                   placeholder="johndoe@example.com"
-                  onChange={validatePhoneNumber}
+                  onChange={validateEmail}
                 />
               </FormGroup>
 
@@ -164,6 +211,7 @@ function Signup({ history }) {
                 <Label className="mt-4 mb-1 font-weight: bold">Password</Label>
                 <Input
                   type="password"
+                  name="password"
                   placeholder="*********"
                   onChange={validatePassword}
                 />
@@ -179,8 +227,11 @@ function Signup({ history }) {
                 >
                   Back to Log in
                 </Button>
-                {pwdError && <p>Your password is invalid</p>}
-                {phoneError && <p>Your phone no is invalid</p>}
+                {passwordError && <p>Password is invalid</p>}
+                {phoneError && <p>Mobile no is invalid</p>}
+                {nameError && <p>Name is invalid</p>}
+                {emailError && <p>Email is invalid</p>}
+                {brandNameError && <p>BrandName can't invalid</p>}
               </div>
             </Form>
           </div>

@@ -11,10 +11,10 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 function Login({ history }) {
   // State Storage for Data and Errors
   const [password, setPassword] = useState("");
-  const [pwdError, setPwdError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneErr] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
 
   // Validation for Phone Number
   const validatePhoneNumber = (e) => {
@@ -22,15 +22,15 @@ function Login({ history }) {
     if (e.target.value !== "undefined") {
       if (!validPhone.test(e.target.value)) {
         setPhone(e.target.value);
-        setPhoneErr(true);
+        setPhoneError(true);
       } else if (e.target.value.length < 10) {
         setPhone(e.target.value);
-        setPhoneErr(true);
+        setPhoneError(true);
       } else if (e.target.value.length == 10) {
         setPhone(e.target.value);
-        setPhoneErr(false);
+        setPhoneError(false);
       } else {
-        setPhoneErr(false);
+        setPhoneError(false);
       }
     }
   };
@@ -41,9 +41,9 @@ function Login({ history }) {
     if (e.target.value !== "undefined") {
       if (!validPassword.test(e.target.value)) {
         setPassword(e.target.value);
-        setPwdError(true);
+        setPasswordError(true);
       } else {
-        setPwdError(false);
+        setPasswordError(false);
       }
     }
   };
@@ -51,7 +51,7 @@ function Login({ history }) {
   // Check for data on API on submit for Login
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!pwdError && !phoneError) {
+    if (!passwordError && !phoneError) {
       const data = new FormData(e.target);
 
       setPhone(data.get("mobile"));
@@ -163,8 +163,8 @@ function Login({ history }) {
                 </Button>
               </div>
               <div className="row">
-                {pwdError && <p>Your password is invalid</p>}
-                {phoneError && <p>Your phone no is invalid</p>}
+                {passwordError && <p>Password is invalid</p>}
+                {phoneError && <p>Mobile no is invalid</p>}
               </div>
             </Form>
           </div>
