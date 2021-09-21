@@ -1,31 +1,22 @@
 import React, { useState } from "react";
-import "./login.css";
+import "../css/style.css";
 import image1 from ".././asset/LoginPageSliderImage.png";
 import image2 from ".././asset/logo.png";
 import image3 from ".././asset/LoginScreenHiIcon.png";
 import axios from "axios";
-import {
-  Route,
-  Link,
-  BrowserRouter,
-  useHistory,
-  withRouter,
-} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { validPassword, validPhone } from "../js/regex";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 function Login({ history }) {
   const [password, setPassword] = useState("");
   const [pwdError, setPwdError] = useState(false);
+
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneErr] = useState(false);
-  const [button] = useState(true);
-  const [MobileNumber, setMobileNumber] = useState("");
-  const [Password, setUserPassword] = useState("");
-
-  //const history = useHistory();
 
   const validatePhoneNumber = (e) => {
+    e.preventDefault();
     if (e.target.value !== "undefined") {
       if (!validPhone.test(e.target.value)) {
         setPhoneErr(true);
@@ -43,6 +34,7 @@ function Login({ history }) {
   };
 
   const validatePassword = (e) => {
+    e.preventDefault();
     if (e.target.value !== "undefined") {
       if (!validPassword.test(e.target.value)) {
         setPwdError(true);
@@ -55,24 +47,22 @@ function Login({ history }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { mobile } = e.target.elements.mobile;
-    const { password } = e.target.elements.password;
+    const data = new FormData(e.target);
 
-    setMobileNumber(mobile);
-    setUserPassword(password);
-
+    setPhone(data.get("mobile"));
+    setPassword(data.get("password"));
     axios
       .post("http://api.impsguru.com/api/login", {
-        MobileNumber: mobile,
+        MobileNumber: phone,
         Password: password,
       })
       .then((response) => {
+        history.push("/otp");
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-    //console.log(pwdError, phoneError);
   };
 
   const intentSignUp = () => {
@@ -94,7 +84,7 @@ function Login({ history }) {
             </p>
           </div>
         </div>
-        <div className="col-12 col-md-6 col-sm-6 justify-content-md-center">
+        <div className="col-12 col-md-6 col-sm-6">
           <div className="row p-3">
             <div className="col">
               <img
@@ -107,13 +97,14 @@ function Login({ history }) {
           <div className="row p-3">
             <div className="col">
               <img
-                className="img-fluid btn btn-xs w-0 float-start"
+                className="img-fluid"
                 src={image3}
+                style={{ marginLeft: "10px", width: "70px" }}
                 alt="image_3"
               />
             </div>
           </div>
-          <div className="row p-5 m-5">
+          <div className="row justify-content-md-center login-form">
             <Form onSubmit={handleSubmit}>
               <h3>
                 <span className="font-weight-bold">Welcome back!</span>
@@ -146,11 +137,11 @@ function Login({ history }) {
                 <Input
                   className="form-check-input mt-2 mb-2 md-2"
                   type="checkbox"
-                  id="gridCheck"
+                  id="rememberMe"
                 ></Input>
                 <Label
                   className="form-check-label mt-2 mb-2 md-2"
-                  for="gridCheck"
+                  for="rememberMe"
                 >
                   {" "}
                   &nbsp; Remember me
@@ -160,9 +151,8 @@ function Login({ history }) {
                 <Button type="submit" className="btn">
                   Login
                 </Button>
-                <br />
               </div>
-              <div className="row">
+              <div className="row mt-1">
                 <Button className="btns" onClick={intentSignUp}>
                   Sign Up
                 </Button>
@@ -173,7 +163,7 @@ function Login({ history }) {
               </div>
             </Form>
           </div>
-          <div className="row">
+          <div className="row mt-5">
             <span className="text-center fs-6">Terms &amp; Condition</span>
           </div>
         </div>

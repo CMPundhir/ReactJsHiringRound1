@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import Login from "./login/login";
 import Signup from "./signup/signup";

@@ -1,5 +1,5 @@
 import React, { useState, setState } from "react";
-import "./otpPage.css";
+import "../css/style.css";
 import signup from ".././signup/signup";
 import image1 from ".././asset/OtpVerificationPageSlider.png";
 import image2 from ".././asset/logo.png";
@@ -56,7 +56,7 @@ function OtpPage({ history }) {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-6">
+        <div className="col-12 col-md-6 col-sm-6">
           <div className="banner-block">
             <img className="img-fluid" src={image1} alt="image_1" />
             <p className="text-center fw-bold fs-5">
@@ -68,19 +68,21 @@ function OtpPage({ history }) {
             </p>
           </div>
         </div>
-        <div className="col-6 position-relative">
-          <div className="row">
-            <img
-              className="w-25 p-3 position-absolute top-0 end-0"
-              src={image2}
-              alt="image_2"
-            />
+        <div className="col-12 col-md-6 col-sm-6">
+          <div className="row p-3">
+            <div className="col">
+              <img
+                className="img-fluid w-25 h-0 float-end"
+                src={image2}
+                alt="image_2"
+              />
+            </div>
           </div>
 
-          <div className="row login-form">
+          <div className="rowp-5 justify-content-md-center otp-form">
             <Form>
               <h3>
-                <span className="font-weight-bold">OTP Varification!</span>
+                <span className="font-weight-bold">OTP Verification!</span>
               </h3>
 
               <span className="font-weight-bold">
@@ -92,7 +94,7 @@ function OtpPage({ history }) {
                 <Label className="mt-5 mb-1 ">Enter Code</Label>
                 <Input
                   className="input"
-                  type="text"
+                  type="password"
                   placeholder="******"
                 ></Input>
               </FormGroup>
@@ -106,7 +108,7 @@ function OtpPage({ history }) {
               <FormGroup>
                 <div className="row">
                   <Button className="btns" onClick={intentSignUp}>
-                    Back to login
+                    Back to Login
                   </Button>
                 </div>
               </FormGroup>

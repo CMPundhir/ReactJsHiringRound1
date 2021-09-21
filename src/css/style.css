@@ -1,16 +1,31 @@
+.login-form {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.otp-form {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.signup-form {
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
 Button.btn {
   background-color: #07b9fa;
   color: #ecf2fc;
   text-align: center;
   font-size: 13px;
-  margin: auto;
+  margin: 20px 2px;
   border-color: #53d0ff;
 }
 
 Button.btns {
   background-color: #fafafa;
   color: #53d0ff;
-  margin-top: 25px;
+  margin: 5px 2px;
   border-color: #53d0ff;
 }
 

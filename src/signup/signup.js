@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./signup.css";
+import "../css/style.css";
 import image2 from ".././asset/logo.png";
 import image1 from ".././asset/SignUpPageSliderImage.png";
 import { validPassword, validPhone } from "../js/regex";
